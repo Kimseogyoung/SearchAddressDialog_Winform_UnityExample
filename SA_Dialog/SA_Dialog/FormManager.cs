@@ -12,19 +12,20 @@ namespace SA_Dialog
     public class FormManager
     {
         public delegate void ExitHandler(Locale lc);
-        static public event ExitHandler OnExit;
+        public event ExitHandler OnExit;
         [STAThread]
-        static public void OpenSearchForm()
+        public void OpenSearchForm()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SearchForm());
+            Application.Run(new SearchForm(this));
         }
 
         static private string rkey = "";
 
         public void OnExitForm(Locale lc)
         {
+            Console.WriteLine(lc.name);
             OnExit?.Invoke(lc);
         }
         static public void SetAPIKey(string key)

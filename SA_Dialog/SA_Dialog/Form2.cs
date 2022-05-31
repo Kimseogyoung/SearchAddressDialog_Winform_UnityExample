@@ -18,11 +18,11 @@ namespace SA_Dialog
         FormManager fm;
         List<Locale> localeList;
         bool isAddressSearch = true;
-        public SearchForm()
+        public SearchForm(FormManager fm)
         {
             localeList = new List<Locale>();
 
-            fm = new FormManager();
+            this.fm = fm;
 
             InitializeComponent();
 
