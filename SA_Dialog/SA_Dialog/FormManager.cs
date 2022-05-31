@@ -5,11 +5,12 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 using System.Web.Script.Serialization;
+using LitJson;
+
 namespace SA_Dialog
 {
     public class FormManager
     {
-        static private string rkey = "";
 
         [STAThread]
         static public void OpenSearchForm()
@@ -18,6 +19,9 @@ namespace SA_Dialog
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
         }
+
+        static private string rkey = "";
+
         static public void SetAPIKey(string key)
         {
             rkey = key;
@@ -49,35 +53,28 @@ namespace SA_Dialog
 
             StreamReader reader = new StreamReader(stream, Encoding.UTF8);
 
-            String json = reader.ReadToEnd();
+            string json = reader.ReadToEnd();
 
 
             stream.Close();
 
 
+            JsonData jsonData = JsonToObject(json);
 
+            JsonData docs = jsonData["documents"];
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
-
-            dynamic dob = js.Deserialize<dynamic>(json);
-
-            dynamic docs = dob["documents"];
-
-            object[] buf = docs;
-
-            int length =  buf.Length;
             List<Locale> localeList = new List<Locale>();
-            
-            for (int i = 0; i < length; i++)
+
+            for (int i = 0; i < docs.Count; i++)
             {
-                Locale locale = new Locale(docs[i]["place_name"], float.Parse( docs[i]["y"]),float.Parse(docs[i]["x"]));
-                string lname = docs[i]["place_name"];
+                Locale locale = new Locale((string)docs[i]["place_name"], float.Parse((string)docs[i]["y"]), float.Parse((string)docs[i]["x"]));
+                string lname = (string)docs[i]["place_name"];
 
-                string x = docs[i]["x"];
+                string x = (string)docs[i]["y"];
 
-                string y = docs[i]["y"];
+                string y = (string)docs[i]["x"];
 
-                Console.WriteLine("{0},{1},{2}", lname, x, y);
+                //Debug.Log("{0},{1},{2}", lname, x, y);
                 localeList.Add(locale);
             }
             return localeList;
@@ -112,39 +109,38 @@ namespace SA_Dialog
 
             StreamReader reader = new StreamReader(stream, Encoding.UTF8);
 
-            String json = reader.ReadToEnd();
+            string json = reader.ReadToEnd();
 
 
             stream.Close();
 
+            JsonData jsonData = JsonToObject(json);
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
-
-            dynamic dob = js.Deserialize<dynamic>(json);
-
-            dynamic docs = dob["documents"];
-
-            object[] buf = docs;
-
-            int length = buf.Length;
+            JsonData docs = jsonData["documents"];
 
             List<Locale> localeList = new List<Locale>();
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < docs.Count; i++)
             {
-                Locale locale = new Locale(docs[i]["address_name"], float.Parse(docs[i]["y"]), float.Parse(docs[i]["x"]));
-                string lname = docs[i]["address_name"];
-
-                string x = docs[i]["x"];
-
-                string y = docs[i]["y"];
+                Locale locale = new Locale((string)docs[i]["address_name"], float.Parse((string)docs[i]["y"]), float.Parse((string)docs[i]["x"]));
+                string lname = (string)docs[i]["address_name"];
 
 
-                Console.WriteLine("{0},{1},{2}", lname, x, y);
+                string x = (string)docs[i]["y"];
+
+                string y = (string)docs[i]["x"];
+
+                //Debug.Log("{0},{1},{2}", lname, x, y);
                 localeList.Add(locale);
+
             }
             return localeList;
         }
+        JsonData JsonToObject(string json)
+        {
+            return JsonMapper.ToObject(json);
+        }
+    
 
     }
 }

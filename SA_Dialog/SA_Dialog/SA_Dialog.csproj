@@ -80,6 +80,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LitJson\IJsonWrapper.cs" />
+    <Compile Include="LitJson\JsonData.cs" />
+    <Compile Include="LitJson\JsonException.cs" />
+    <Compile Include="LitJson\JsonMapper.cs" />
+    <Compile Include="LitJson\JsonMockWrapper.cs" />
+    <Compile Include="LitJson\JsonReader.cs" />
+    <Compile Include="LitJson\JsonWriter.cs" />
+    <Compile Include="LitJson\Lexer.cs" />
+    <Compile Include="LitJson\Netstandard15Polyfill.cs" />
+    <Compile Include="LitJson\ParserToken.cs" />
     <Compile Include="Locale.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
@@ -91,6 +101,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="LitJson\AssemblyInfo.cs.in" />
+    <None Include="LitJson\AssemblyInfo.cs.in.meta" />
+    <None Include="LitJson\IJsonWrapper.cs.meta" />
+    <None Include="LitJson\JsonData.cs.meta" />
+    <None Include="LitJson\JsonException.cs.meta" />
+    <None Include="LitJson\JsonMapper.cs.meta" />
+    <None Include="LitJson\JsonMockWrapper.cs.meta" />
+    <None Include="LitJson\JsonReader.cs.meta" />
+    <None Include="LitJson\JsonWriter.cs.meta" />
+    <None Include="LitJson\Lexer.cs.meta" />
+    <None Include="LitJson\litjson.png.meta" />
+    <None Include="LitJson\Netstandard15Polyfill.cs.meta" />
+    <None Include="LitJson\ParserToken.cs.meta" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +128,9 @@
     <Analyzer Include="..\packages\CefSharp.Common.101.0.180\lib\net452\CefSharp.Core.dll" />
     <Analyzer Include="..\packages\CefSharp.Common.101.0.180\lib\net452\CefSharp.dll" />
     <Analyzer Include="..\packages\CefSharp.WinForms.101.0.180\lib\net452\CefSharp.WinForms.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LitJson\litjson.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

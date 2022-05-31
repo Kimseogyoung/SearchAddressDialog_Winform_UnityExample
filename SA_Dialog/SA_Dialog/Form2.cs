@@ -13,6 +13,10 @@ namespace SA_Dialog
 
     public partial class Form1 : Form
     {
+        protected delegate void ExitHandler(Locale lc);//play- 바로 재생할것인지
+        protected event ExitHandler OnExit;
+
+        Locale current = null;
         FormManager fm;
         List<Locale> localeList;
         bool isAddressSearch = true;
@@ -25,7 +29,7 @@ namespace SA_Dialog
             InitializeComponent();
 
             //InitializeChromeBrowser();
-            this.webView21.Source = new System.Uri("C:\\git_workplace\\SearchAddressDialog\\SA_Dialog\\SA_Dialog" + "\\index.html");
+           
         }
 
 
@@ -36,7 +40,8 @@ namespace SA_Dialog
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            OnExit?.Invoke(current) ;
+            Close();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -68,16 +73,11 @@ namespace SA_Dialog
             {
                 // 선택된 항목 저장
                 string selectedItem = this.listBox1.Items[selectedIndex] as string;
-                ExecuteMapLoad(localeList[selectedIndex]);
+                current = localeList[selectedIndex];
              }
 
         }
-        private async void ExecuteMapLoad(Locale lc)
-        {
-            Console.WriteLine($"changeMap1(" + lc.lat + "," + lc.lng + ");");
-            await webView21.ExecuteScriptAsync($"changeMap1(" + lc.lat + "," + lc.lng + ");");
 
-        }
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
