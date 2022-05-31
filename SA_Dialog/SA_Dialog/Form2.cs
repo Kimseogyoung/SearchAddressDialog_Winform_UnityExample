@@ -13,8 +13,6 @@ namespace SA_Dialog
 
     public partial class SearchForm : Form
     {
-        public delegate void ExitHandler(Locale lc);
-        public event ExitHandler OnExit;
 
         Locale current = null;
         FormManager fm;
@@ -40,7 +38,7 @@ namespace SA_Dialog
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OnExit?.Invoke(current) ;
+            fm.OnExitForm(current);
             Close();
         }
         private void button1_Click(object sender, EventArgs e)

@@ -11,7 +11,8 @@ namespace SA_Dialog
 {
     public class FormManager
     {
-
+        public delegate void ExitHandler(Locale lc);
+        static public event ExitHandler OnExit;
         [STAThread]
         static public void OpenSearchForm()
         {
@@ -22,6 +23,10 @@ namespace SA_Dialog
 
         static private string rkey = "";
 
+        public void OnExitForm(Locale lc)
+        {
+            OnExit?.Invoke(lc);
+        }
         static public void SetAPIKey(string key)
         {
             rkey = key;
