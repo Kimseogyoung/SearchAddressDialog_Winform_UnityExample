@@ -1,6 +1,6 @@
 ﻿namespace SA_Dialog
 {
-    partial class Form1
+    partial class SearchForm
     {
         /// <summary>
         /// Required designer variable.

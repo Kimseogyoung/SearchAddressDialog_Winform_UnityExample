@@ -11,16 +11,16 @@ using System.Windows.Forms;
 namespace SA_Dialog
 {
 
-    public partial class Form1 : Form
+    public partial class SearchForm : Form
     {
-        protected delegate void ExitHandler(Locale lc);//play- 바로 재생할것인지
-        protected event ExitHandler OnExit;
+        public delegate void ExitHandler(Locale lc);
+        public event ExitHandler OnExit;
 
         Locale current = null;
         FormManager fm;
         List<Locale> localeList;
         bool isAddressSearch = true;
-        public Form1()
+        public SearchForm()
         {
             localeList = new List<Locale>();
 
