@@ -143,7 +143,7 @@ MonoBehaviour:
   objName: 
   objID: 0
   isOutline: 0
-  appkey: AIzaSyDWiEr7nsoHfDlgGXAOUIjZfrukJJE-RW8
+  appkey: 
   material: {fileID: 2100000, guid: 07a3b55edac822d44b0bf9e6cbf3a5f8, type: 2}
   lat: 0
   lon: 0
