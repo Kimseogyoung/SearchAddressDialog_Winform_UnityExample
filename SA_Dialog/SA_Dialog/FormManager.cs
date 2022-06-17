@@ -34,7 +34,7 @@ namespace SA_Dialog
         }
         public List<Locale> kewordSearchRequest(string keword)
         {
-
+            if (keword.Length < 1) return null;
             string input = keword;
 
             string site = "https://dapi.kakao.com/v2/local/search/keyword.json";
@@ -83,12 +83,14 @@ namespace SA_Dialog
                 //Debug.Log("{0},{1},{2}", lname, x, y);
                 localeList.Add(locale);
             }
+            if (localeList.Count == 0) return null;
             return localeList;
 
         }
         public List<Locale> AddressSearchRequest(string address)
         {
 
+            if(address.Length<1) return null;
 
             string input = address;
 
@@ -140,6 +142,8 @@ namespace SA_Dialog
                 localeList.Add(locale);
 
             }
+            if (localeList.Count == 0) return null;
+
             return localeList;
         }
         JsonData JsonToObject(string json)

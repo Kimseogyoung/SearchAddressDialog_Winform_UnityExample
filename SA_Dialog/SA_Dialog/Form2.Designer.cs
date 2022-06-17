@@ -44,7 +44,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(566, 43);
             this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
+            this.button1.Text = "검색";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -57,7 +57,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(566, 533);
             this.listBox1.TabIndex = 3;
-            this.listBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_DBClick);
+            this.listBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_DBClick);
             // 
             // textBox1
             // 
@@ -119,7 +119,7 @@
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.ChangedSearchType);
             // 
-            // Form1
+            // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -129,7 +129,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "SearchForm";
             this.Text = "장소 검색 응용 프로그램";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

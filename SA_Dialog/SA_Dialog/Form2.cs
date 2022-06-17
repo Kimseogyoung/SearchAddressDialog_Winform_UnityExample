@@ -48,6 +48,9 @@ namespace SA_Dialog
             else
                 localeList = fm.kewordSearchRequest(this.textBox1.Text);
 
+            if (localeList == null)
+                return;
+
             this.listBox1.Items.Clear();
 
             foreach(Locale lc in localeList)

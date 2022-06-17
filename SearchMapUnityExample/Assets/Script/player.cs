@@ -23,15 +23,18 @@ public class player : MonoBehaviour
 
 
     public Animator animator;
-
+    private CamController camController;
     
     private Rigidbody rigidbody = null;
     private bool isTalk = false;
+    private ScanObject scanObject=null;
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        Camera.main.GetComponent<CamController>().SetPlayer(transform);
+        camController = Camera.main.GetComponent<CamController>();
+        camController.SetPlayer(transform);
+
     }
     void FixedUpdate()
     {
@@ -40,14 +43,37 @@ public class player : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {//카메라 변경
+            camController.ChangeMode((camController.GetCamMode() + 1) % 2);
+        }
         if (!isTalk)
         {
             movePlayer();
-        }
-        //talk();
-        if (!isTalk)
-        {
             jumpPlayer();
+            ScanObject newScanObject = checkFront();
+            if (newScanObject != null)
+            {
+                scanObject= newScanObject;
+                scanObject.OnOutLine();
+            }
+            else
+            {
+                if(scanObject!=null)
+                    scanObject.Clear();
+                scanObject = null;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                scanObject = checkFront();
+                if (scanObject != null)
+                {
+                    scanObject.Run();
+                    scanObject = null;
+                }
+
+            }
+
             //AttackPlayer();
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -77,35 +103,44 @@ public class player : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         Vector3 pastPos = new Vector3(0, 0, 0);
 
+        Vector3 frontVec = camController.transform.forward;
+        frontVec.y = 0;
         if (v > 0)
-        {
-            gameObject.transform.Translate(Vector3.forward  * speed *Time.deltaTime ,Space.World);
+        { 
+            gameObject.transform.Translate(frontVec * speed *Time.deltaTime,Space.World);
             // gameObject.transform.Translate(Vector3.forward * (0.2f * speed), Space.Self);
-            pastPos += Vector3.forward  * speed * Time.deltaTime;
+            pastPos += frontVec;
 
         }
         if (v < 0)
         {
-            gameObject.transform.Translate(Vector3.back  * speed * Time.deltaTime, Space.World);
+            gameObject.transform.Translate(-frontVec * speed * Time.deltaTime, Space.World);
             //gameObject.transform.Translate(Vector3.back* (0.2f * speed), Space.Self);
-            pastPos += Vector3.back * speed * Time.deltaTime;
+            pastPos += -frontVec;
         } 
         if (h < 0)
         {
-            gameObject.transform.Translate(Vector3.left  * speed * Time.deltaTime, Space.World);
+            
+            gameObject.transform.Translate(Vector3.Cross(frontVec,transform.up)  * speed * Time.deltaTime, Space.World);
             //gameObject.transform.Translate(Vector3.left*(0.2f*speed), Space.Self);
-            pastPos += Vector3.left * speed * Time.deltaTime;
+            pastPos += Vector3.Cross(frontVec, transform.up);
             //transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - angleSpeed, 0);
         }
         if (h > 0)
         {
-            gameObject.transform.Translate(Vector3.right * speed * Time.deltaTime, Space.World);
+            gameObject.transform.Translate(-Vector3.Cross(frontVec, transform.up)*speed * Time.deltaTime, Space.World);
             // gameObject.transform.Translate(Vector3.right * (0.2f * speed), Space.Self);
-            pastPos += Vector3.right * speed * Time.deltaTime;
+            pastPos += -Vector3.Cross(frontVec, transform.up);
             //transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + angleSpeed, 0);
         }
 
-        transform.LookAt(transform.position + pastPos);
+        //transform.LookAt(transform.position + pastPos);
+        if (camController.GetCamMode() == 0)
+            transform.LookAt(transform.position + frontVec);
+        else if(camController.GetCamMode() == 1)
+        {
+            transform.LookAt(transform.position + pastPos);
+        }
 
         walkAnimationUpdate(h, v);
     }
@@ -205,14 +240,20 @@ public class player : MonoBehaviour
     }
 
     RaycastHit hit;
-    public GameObject checkFront()
+    public ScanObject checkFront()
     {
-        GameObject scanObject = null;
-        if (Physics.Raycast(viewPoint.transform.position, viewPoint.transform.forward, out hit, 1.0f))
+        GameObject sc= null;
+        if (Physics.Raycast(viewPoint.transform.position, viewPoint.transform.forward, out hit, 1.5f))
         {
-            Debug.DrawRay(viewPoint.transform.position, viewPoint.transform.forward * 1.0f, Color.blue, 0.3f);
-            scanObject = hit.collider.gameObject;
+            Debug.DrawRay(viewPoint.transform.position, viewPoint.transform.forward * 1.0f, Color.blue, 1.5f);
+            sc = hit.collider.gameObject;
+            ScanObject obj=null;
+            sc.TryGetComponent<ScanObject>(out obj);
+            
+            return obj;
+
+
         }
-        return scanObject;
+        return null;
     }
 }
