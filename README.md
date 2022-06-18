@@ -3,12 +3,13 @@
 장소 키워드 검색과 주소 검색을 제공하는 c# Winform 라이브러리 (with. 유니티 적용 예제)
 
 ## Requirements
-more than .NET Framework 2.0
+more than .NET Framework 2.0<br>
+If a build error occurs, change to version 4.x.
 
 
 ## Library Instructions 
-1. Refer to the SA_Dialog.dll file for your project.<br>
-    SA_Dialog.dll파일을 프로젝트에 참조하세요.
+1. Refer to the SA_Dialog.dll file and System.Windows.Forms.dll file for your project.<br>
+    SA_Dialog.dll파일과 System.Windows.Forms.dll파일을 프로젝트에 참조하세요.
 
 
 2. Register the Kakao Map api key. Be sure to do it at the top of the code.  <br>
