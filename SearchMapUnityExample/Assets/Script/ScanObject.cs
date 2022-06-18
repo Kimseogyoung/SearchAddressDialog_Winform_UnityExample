@@ -29,7 +29,7 @@ public class ScanObject : MonoBehaviour
     }
     public void Run()
     {   
-        Comopent();
+        Component();
     }
     public void Clear()
     {
@@ -43,7 +43,7 @@ public class ScanObject : MonoBehaviour
 
         renderer.materials = materialList.ToArray();
     }
-    virtual public void Comopent()
+    virtual public void Component()
     {
 
     }

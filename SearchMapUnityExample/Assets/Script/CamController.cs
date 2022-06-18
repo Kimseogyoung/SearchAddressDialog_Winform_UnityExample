@@ -84,6 +84,7 @@ public class CamController : MonoBehaviour
 
                     }
                     transform.position = playerTransform.position - transform.forward * cameraDistance;
+
                     /*
                     방향 벡터 구해서 
                     해당 위치로 원모양으로 돌려주는 코드(초기 방식)

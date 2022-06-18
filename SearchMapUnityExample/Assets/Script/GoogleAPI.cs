@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using System.Windows.Forms;
 using SA_Dialog;
 public class GoogleAPI : ScanObject
 { 
@@ -24,7 +22,7 @@ public class GoogleAPI : ScanObject
     public int scale;
     private FormManager fm;
 
-    IEnumerator Map(Locale lc)
+    IEnumerator LoadMap(Locale lc)
     {
         url = "https://maps.googleapis.com/maps/api/staticmap?center="+lc.lat+","+lc.lng+"&zoom=18&size=1100x1400&key="+appkey;
         
@@ -36,11 +34,10 @@ public class GoogleAPI : ScanObject
     void Start()
     {
         
-        FormManager.SetAPIKey("09b39522763fe51b9386d5ed328d82a5");
         fm = new FormManager();
         fm.OnExit += OnGetResult;
     }
-    public override void Comopent()
+    public override void Component()
     {
         if(fm!=null)
             fm.OpenSearchForm();
@@ -49,7 +46,7 @@ public class GoogleAPI : ScanObject
     }
     void OnGetResult(Locale lc)
     {
-        StartCoroutine(Map(lc));
+        StartCoroutine(LoadMap(lc));
     }
     // Update is called once per frame
     void Update()
