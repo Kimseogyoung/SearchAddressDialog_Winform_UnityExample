@@ -4,9 +4,26 @@ using UnityEngine;
 
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public QuestManager questmanager;
+    public BoardManager boardManager;
+
+    public StoreUI storeUI;
+    public PlayerUI playerUI;
+
+    public int stage;
+    public int boardCnt;
+    public float gold;
+  
+    private void Awake()
+    {
+        gold = 0;
+        boardCnt = 1;
+        stage = 1;
+        boardManager.Init();
+    }
+
+    /*
     public UIManager uimanager;
 
     public int curQuestId = 1;
@@ -16,27 +33,6 @@ public class GameManager : MonoBehaviour
     public int money = 0;
 
  
-    public GameObject mark1;//!
-    public GameObject mark2;//?
-
-    private int talkIndex=0;
-    
-    private int questCount = 0;
-
-    public void CheckQuestCondition(int objId)
-    {
-        if (questState==1)
-        {
-            if (objId == questmanager.getConditionId(curQuestId)&&(questmanager.getConditionCount(curQuestId)>curCondition))
-            {
-                Debug.Log("미션 하는중");
-                curCondition++;
-                if (IsQuestComplete()) { mark2.SetActive(true); questState = 2; }
-            }
-            uimanager.UpdateQuestTap(questState,questmanager.getName(curQuestId), curCondition, questmanager.getConditionCount(curQuestId));
-
-        }
-    }
     public void EnemyAttack(ObjectData objData, int power)
     {
         if (objData.id >= 1000 && objData.id<10000)
@@ -44,13 +40,15 @@ public class GameManager : MonoBehaviour
             objData.curhp = objData.curhp - power;
             if (objData.curhp <= 0)
             {
-                CheckQuestCondition(objData.id);
+               // CheckQuestCondition(objData.id);
                 objData.DieAndRespown();
                 
             }
         }
 
     }
+    */
+    /*
     public void NpcTalk(ObjectData objData)
     {
         if (objData.id % 10000 == 0)
@@ -94,4 +92,5 @@ public class GameManager : MonoBehaviour
         else
              return false;
     }
+    */
 }
