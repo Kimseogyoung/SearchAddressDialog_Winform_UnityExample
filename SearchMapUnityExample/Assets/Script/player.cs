@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     public float speed;
     public float angleSpeed;
@@ -14,7 +14,6 @@ public class player : MonoBehaviour
     public GameObject viewPoint;
 
     public bool isAttackMode=false;
-    public GameManager gamemanager;
     
 
     private bool isPlayerJump=false;
