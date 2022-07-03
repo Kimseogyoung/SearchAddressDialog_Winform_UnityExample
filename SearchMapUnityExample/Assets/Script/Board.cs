@@ -11,11 +11,11 @@ public class Board : MonoBehaviour
     private ScanObject mainObject;
 
     public Locale locale;
-    
+
     public float size;
     public bool isCleared;
 
-   
+
     string url;
     public float lat;
     public float lon;
@@ -23,6 +23,12 @@ public class Board : MonoBehaviour
     public int zoom = 14;
     public int mapWidth = 640;
     public int mapHeight = 640;
+
+    public  Vector2 pos;
+    public Vector2 Pos{
+        get{ return pos; }
+        set{ pos = value; }
+    }
 
 
     private Material material;

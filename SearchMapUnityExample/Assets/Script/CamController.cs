@@ -21,7 +21,7 @@ public class CamController : MonoBehaviour
     public void SetPlayer(Transform transform)
     {
         playerTransform = transform;
-        ChangeMode(0);
+        ChangeMode(1);
     }
     public void ChangeMode(int mode)
     {
@@ -38,7 +38,6 @@ public class CamController : MonoBehaviour
 
 
         }
-        Debug.Log(camMode);
     }
     public int GetCamMode()
     {

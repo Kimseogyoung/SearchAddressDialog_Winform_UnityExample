@@ -11,17 +11,44 @@ public class GameManager : Singleton<GameManager>
     public StoreUI storeUI;
     public PlayerUI playerUI;
 
-    public int stage;
-    public int boardCnt;
-    public float gold;
-  
+    private int boardCnt;
+    private float gold;
+    private Vector2 pos;
+
+    public float Gold
+    {
+        get { return gold; }
+        set { 
+            gold = value;
+            playerUI.UpdateGold(gold);
+        }
+    }
+    public int BoardCnt
+    {
+        get { return boardCnt; }
+        set
+        {
+            boardCnt = value;
+            playerUI.UpdateBoardCnt(boardCnt);
+        }
+    }
+    public Vector2 Pos
+    {
+        get { return pos; }
+        set
+        {
+            pos = value;
+            playerUI.UpdateCurrentPos(pos);
+        }
+    }
+
     private void Awake()
     {
-        gold = 0;
-        boardCnt = 1;
-        stage = 1;
+        Gold = 0;
+        BoardCnt = 0;
         boardManager.Init();
     }
+
 
     /*
     public UIManager uimanager;
