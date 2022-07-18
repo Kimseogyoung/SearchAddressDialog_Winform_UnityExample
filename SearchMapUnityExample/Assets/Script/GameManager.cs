@@ -9,18 +9,22 @@ public class GameManager : Singleton<GameManager>
     public BoardManager boardManager;
 
     public StoreUI storeUI;
-    public PlayerUI playerUI;
+    public GameUI gameUI;
+    
 
     private int boardCnt;
     private float gold;
     private Vector2 pos;
+
+    public bool isEnemyMode;
+    
 
     public float Gold
     {
         get { return gold; }
         set { 
             gold = value;
-            playerUI.UpdateGold(gold);
+            gameUI.UpdateGold(gold);
         }
     }
     public int BoardCnt
@@ -29,7 +33,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             boardCnt = value;
-            playerUI.UpdateBoardCnt(boardCnt);
+            gameUI.UpdateBoardCnt(boardCnt);
         }
     }
     public Vector2 Pos
@@ -38,18 +42,27 @@ public class GameManager : Singleton<GameManager>
         set
         {
             pos = value;
-            playerUI.UpdateCurrentPos(pos);
+            gameUI.UpdateCurrentPos(pos);
         }
     }
 
     private void Awake()
     {
-        Gold = 0;
-        BoardCnt = 0;
+        Init();
         boardManager.Init();
     }
-
-
+    private void Init()
+    {
+        isEnemyMode = false;
+        Gold = 0;
+        BoardCnt = 0;
+    }
+    public void Reset()
+    {
+        boardManager.Reset();
+        Player.Instance.transform.position = new Vector3(0, 2, 0);
+        Init();
+    }
     /*
     public UIManager uimanager;
 

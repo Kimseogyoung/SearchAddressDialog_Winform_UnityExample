@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 
 public class Player : Singleton<Player>
 {
-    
+    public PlayerUI playerUI;
+   
     public Stat stat;
     public float speed;
     public float angleSpeed;
@@ -42,7 +43,10 @@ public class Player : Singleton<Player>
         rigidbody = GetComponent<Rigidbody>();
         camController = Camera.main.GetComponent<CamController>();
         camController.SetPlayer(transform);
+
+        stat.OnChanged += delegate { playerUI.UpdateHP(stat.CurrentHp); };
         stat.Init();
+       
 
     }
     void FixedUpdate()
@@ -110,6 +114,7 @@ public class Player : Singleton<Player>
             }
         }
     }
+    
     private void DrawRayUnderPlayer()
     {
         RaycastHit hit;

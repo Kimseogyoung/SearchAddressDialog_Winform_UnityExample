@@ -15,6 +15,7 @@ public class Stat
         set
         {
             currentHp = value;
+            OnChanged?.Invoke();
             if (currentHp <= 0)
             {
                 currentHp = 0;
@@ -48,11 +49,12 @@ public class Stat
         get { return Mathf.Max(0, damage + extraDamage); }
     }
 
-    public delegate void StatHandler();//죽었을때
-    public event StatHandler OnDie;
+    public delegate void StatHandler();
+    public event StatHandler OnDie;//죽었을 때
+    public event StatHandler OnChanged;//hp가 변경되었을 때
     public void Init()
     {
-        currentHp = Hp;
+        CurrentHp = Hp;
         extraSpeed = 0;
         extraDamage = 0;
     }

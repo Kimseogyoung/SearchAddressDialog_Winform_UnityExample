@@ -32,6 +32,7 @@ public class Board : MonoBehaviour
 
 
     private Material material;
+    
 
     public delegate void MapHandler(Locale lc);//center board가 맵설정되었을때 호출
     public event MapHandler OnChanged;
@@ -39,6 +40,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         material = GetComponent<Renderer>().material;
+
     }
 
     // Update is called once per frame
@@ -56,6 +58,8 @@ public class Board : MonoBehaviour
 
         mainObject = obj.GetComponent<ScanObject>();
         mainObject.SetBoard(this);
+
+        
     }
     public void SetMap(Locale lc)
     {
@@ -78,5 +82,34 @@ public class Board : MonoBehaviour
         //37.61300 127.00700                
         //37.61572 127.01045      
         material.mainTexture = www.texture;
+    }
+    public void Destroy()
+    {
+        mainObject.Destroy();
+        Destroy(gameObject);
+    }
+    public void MakeWall()
+    {//넘어갈 수 없는 벽 만들기
+
+        for(int i=0; i< transform.childCount; i++)
+        {
+            if (transform.GetChild(i).name == "Wall")
+            {
+                transform.GetChild(i).gameObject.SetActive(true);
+
+            }
+        }
+        
+    }
+    public void RemoveWall()
+    {//벽 없애기
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).name == "Wall")
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+
+            }
+        }
     }
 }

@@ -47,6 +47,10 @@ public class ScanObject : MonoBehaviour
     {   
         Component();
     }
+    virtual public void Destroy()
+    {
+        Destroy(gameObject);
+    }
     public void Clear()
     {
         if (isOutline == false) return;

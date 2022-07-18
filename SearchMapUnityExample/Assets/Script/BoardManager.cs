@@ -58,6 +58,41 @@ public class BoardManager : MonoBehaviour
         SetCurrentPos(new Vector2(size / 2, size / 2));
         Player.Instance.OnChangedPos += SetCurrentPos;
     }
+    public void Reset()
+    {
+        for (int i=0; i<size; i++)
+        {
+            for(int j=0; j<size; j++)
+            {
+                if(boards[i, j] != null)
+                {
+                    boards[i, j].Destroy();
+                }
+            }
+        }
+        for (int i=0; i<3; i++)
+        {
+            for(int j=0; j<3; j++)
+            {
+                aroundB[i, j] = 0;
+            }
+        }
+        Pos = new Vector2(0, 0);
+
+        centerLc.lat = 0;
+        centerLc.lng = 0;
+
+        preBoardPos.x = -1;
+        preBoardPos.y = -1;
+
+        dirs[0] = Vector2.up;
+        dirs[1] = Vector2.down;
+        dirs[2] = Vector2.left;
+        dirs[3] = Vector2.right;
+
+        AddBoard(size / 2, size / 2);
+        SetCurrentPos(new Vector2(size / 2, size / 2));
+    }
     // Update is called once per frame
     void Update()
     {
@@ -119,7 +154,6 @@ public class BoardManager : MonoBehaviour
             {
                 if (preBoard != null)
                 {//초기화되지않음
-                    Debug.Log("삭제2");
                     Destroy(preBoard);
                     preBoardPos.x = -1;
                     preBoardPos.y = -1;
@@ -173,6 +207,7 @@ public class BoardManager : MonoBehaviour
     }
     public void CreatePreBoard(int r, int c)
     {
+        if (GameManager.Instance.isEnemyMode == true) return; //싸움중이라면 리턴
         if (preBoardPos.x == c && preBoardPos.y == r) return;//같은위치라면 리턴
         if (preBoard != null)
         {
@@ -220,6 +255,7 @@ public class BoardManager : MonoBehaviour
 
             Board b = (obj.GetComponent<Board>());
             //맵 세팅
+            
             b.SetMap(centerLc.lat - globalLc.lat * (preBoardPos.y - size / 2),
                 centerLc.lng + globalLc.lng * (preBoardPos.x - size / 2));
 
@@ -228,7 +264,7 @@ public class BoardManager : MonoBehaviour
             b.Pos = new Vector2((int)(preBoardPos.x), (int)(preBoardPos.y));
             boards[(int)(preBoardPos.y), (int)(preBoardPos.x)] = b;
             GameManager.Instance.BoardCnt += 1;
-            b.SetObject((ScanObject.Type)Util.Choose(new float[] {0f,0f,10f,0f }));
+            b.SetObject((ScanObject.Type)Util.Choose(new float[] {0f,5f,10f,0f }));
 
 
 
