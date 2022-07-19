@@ -1188,6 +1188,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6764516572998991024, guid: d4008f80582e1f8469fc600827724a29, type: 3}
+      propertyPath: stat.Hp
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764516572998991024, guid: d4008f80582e1f8469fc600827724a29, type: 3}
       propertyPath: playerUI
       value: 
       objectReference: {fileID: 756868969}

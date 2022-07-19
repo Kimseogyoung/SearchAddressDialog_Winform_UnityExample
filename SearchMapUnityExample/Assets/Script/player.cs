@@ -45,6 +45,7 @@ public class Player : Singleton<Player>
         camController.SetPlayer(transform);
 
         stat.OnChanged += delegate { playerUI.UpdateHP(stat.CurrentHp); };
+        stat.OnDie += delegate { GameManager.Instance.Reset(); }; 
         stat.Init();
        
 

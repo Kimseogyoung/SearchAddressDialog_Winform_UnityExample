@@ -49,6 +49,7 @@ public class ScanObject : MonoBehaviour
     }
     virtual public void Destroy()
     {
+        
         Destroy(gameObject);
     }
     public void Clear()

@@ -85,7 +85,8 @@ public class Board : MonoBehaviour
     }
     public void Destroy()
     {
-        mainObject.Destroy();
+        if(mainObject!=null)
+            mainObject.Destroy();
         Destroy(gameObject);
     }
     public void MakeWall()

@@ -59,9 +59,11 @@ public class GameManager : Singleton<GameManager>
     }
     public void Reset()
     {
-        boardManager.Reset();
-        Player.Instance.transform.position = new Vector3(0, 2, 0);
         Init();
+        boardManager.Reset();
+        Player.Instance.stat.Init();
+        Player.Instance.transform.position = new Vector3(0, 2, 0);
+        
     }
     /*
     public UIManager uimanager;
