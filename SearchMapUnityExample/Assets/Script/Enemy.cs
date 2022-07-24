@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public enum Type
@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public bool isImmediate;
 
 
+    private Slider hpSlider;
     private bool isRun=false;
     protected GameObject targetObj;
     private Animator anim;
@@ -54,13 +55,19 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        hpSlider = GetComponentInChildren<Slider>();
         Init();
     }
 
     protected virtual void Init()
     {
-        stat.Init();
         stat.OnDie += Die;
+        stat.OnChanged += ChangeHpSlider;
+        stat.Init();
+    }
+    private void ChangeHpSlider()
+    {
+        hpSlider.value = stat.CurrentHp / stat.GetMaxHP();
     }
     void Die()
     {
@@ -90,8 +97,9 @@ public class Enemy : MonoBehaviour
                 break;
             case State.Sense:
                 break;
-
         }
+        hpSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up*1.5f);
+
     }
     protected void UpdateIdle() {
         GameObject player = GameObject.Find("player");
@@ -107,8 +115,7 @@ public class Enemy : MonoBehaviour
     }
     protected void UpdateMoving() {
         if (targetObj != null)
-        {
-            
+        {           
             float distance = (targetObj.transform.position - transform.position).magnitude;
             //Debug.Log(distance);
             if (distance <= attackRange)
@@ -147,7 +154,7 @@ public class Enemy : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(dir);
             transform.position += dir * stat.Speed * Time.deltaTime;
             //Debug.Log(dir * stat.Speed * Time.deltaTime);
-
+            
         }
         else
         {
@@ -161,6 +168,7 @@ public class Enemy : MonoBehaviour
         if (targetObj != null)
         {
             Vector3 dir = targetObj.transform.position - transform.position;
+            dir.y = 0;
             Quaternion quat = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Lerp(transform.rotation, quat, 20 * Time.deltaTime);
         }

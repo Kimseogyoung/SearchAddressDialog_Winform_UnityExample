@@ -10,6 +10,8 @@ public class CamController : MonoBehaviour
     public float cameraMoveSpeed;
 
     private int camMode;//0: 1인칭 1: 3인칭
+    public float maxDistance;
+    public float minDistance ;
     public  float cameraDistance =5.0f;//3인칭 카메라 거리
     public float turnSpeed = 4.0f; // 마우스 회전 속도    
     private float xRotate = 0.0f; // 내부 사용할 X축 회전량은 별도 정의 ( 카메라 위 아래 방향 )
@@ -66,12 +68,17 @@ public class CamController : MonoBehaviour
             }
             else if (camMode == 1)
             {
+                float wheel = Input.GetAxis("Mouse ScrollWheel");
+                cameraDistance -= wheel * 4f;
+                cameraDistance = Mathf.Clamp(cameraDistance, minDistance, maxDistance);
+
                 Vector2 mouseMove = Vector2.zero;
                 if (Input.GetMouseButton(1))
                 {
                     mouseMove.y = Input.GetAxis("Mouse X") * turnSpeed;
                     mouseMove.x = -Input.GetAxis("Mouse Y") * turnSpeed;
 
+                    
                     //transform.rotation = Quaternion.Euler(xmove, ymove, 0);
                     //transform.eulerAngles = new Vector3(mouseMove.x, mouseMove.y, 0);
                     if (mouseMove.magnitude != 0)

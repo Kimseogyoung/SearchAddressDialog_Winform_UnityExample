@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
-    private Collider swordCollider;
-    private float power;
+    public enum Type
+    {
+        Normal, Sword
+    }
+    private Collider weaponCollider;
+    [SerializeField]
+    private float basepower=3;
+
+    private float power=0;
 
     private void Start()
     {
     }
     public void Init(float power)
     {
-        swordCollider = gameObject.GetComponent<Collider>();
+        weaponCollider = gameObject.GetComponent<Collider>();
+        SetColliderOn(false);
         this.power = power;
     }
     public void SetColliderOn(bool on)
     {
-        swordCollider.enabled = on;
+        weaponCollider.enabled = on;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -25,7 +33,7 @@ public class Sword : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Enemy e = collision.gameObject.GetComponent<Enemy>();
-            e.stat.CurrentHp -= power;
+            e.stat.CurrentHp -= (power+basepower);
             Debug.Log(e.name + " ÀÇ Ã¼·Â " + e.stat.CurrentHp);
         }
     }

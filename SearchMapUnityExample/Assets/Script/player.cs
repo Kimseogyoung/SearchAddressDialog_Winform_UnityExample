@@ -12,10 +12,9 @@ public class Player : Singleton<Player>
     public float angleSpeed;
     public float jumpForce;
 
-    public GameObject swordObj;
     public GameObject viewPoint;
 
-    public bool isAttackMode=false;
+    public int weaponMode=0;
     
 
     private bool isPlayerJump=false;
@@ -30,15 +29,20 @@ public class Player : Singleton<Player>
     private bool isTalk = false;
     private ScanObject scanObject=null;
 
-    private Sword sword;
+    private Weapon[] weapons;
 
     public delegate void MoveHandler(Vector2 currentPos);//center board가 맵설정되었을때 호출
     public event MoveHandler OnChangedPos;
     // Start is called before the first frame update
     void Start()
     {
-        sword = swordObj.GetComponent<Sword>();
-        sword.Init(stat.Damage);
+        weapons = GetComponentsInChildren<Weapon>();
+        for(int i=0; i<weapons.Length; i++)
+        {
+            weapons[i].Init(stat.Damage);
+            weapons[i].gameObject.SetActive(false);
+        }
+        SetWeapon(0);
 
         rigidbody = GetComponent<Rigidbody>();
         camController = Camera.main.GetComponent<CamController>();
@@ -61,57 +65,71 @@ public class Player : Singleton<Player>
         {//카메라 변경
             camController.ChangeMode((camController.GetCamMode() + 1) % 2);
         }
-        if (!isTalk)
+        if (!isPlayerAttack)
         {
+            movePlayer();
             if (Input.GetKeyDown(KeyCode.Space) && !isPlayerJump)
             {
                 jumpPlayer();
             }
-            else if (isPlayerJump)
-            {
-                DrawRayUnderPlayer();
-            }
-
-            movePlayer();
-
-
-            //앞 검사
-            ScanObject newScanObject = checkFront();
-            if (newScanObject != null)
-            {
-                scanObject= newScanObject;
-                scanObject.OnOutLine();
-            }
-            else
-            {
-                if(scanObject!=null)
-                    scanObject.Clear();
-                scanObject = null;
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                scanObject = checkFront();
-                if (scanObject != null)
-                {
-                    scanObject.Run();
-                    scanObject = null;
-                }
-
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                AttackPlayer();
-            }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (isAttackMode)
-                    isAttackMode = false;
+
+                if (weaponMode == 1)
+                {
+                    SetWeapon(0);
+                }
                 else
-                    isAttackMode = true;
-                swordObj.SetActive(isAttackMode);
+                {
+                    SetWeapon(1);
+                }
+
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                if (weaponMode == 2)
+                {
+                    weaponMode = 0;
+                }
+                else
+                {
+                    weaponMode = 2;
+                }
+                SetWeapon(weaponMode);
+
+            }
+        }
+        if (isPlayerJump)
+        {
+            DrawRayUnderPlayer();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            AttackPlayer();
+        }
+
+        //앞 검사
+        ScanObject newScanObject = checkFront();
+        if (newScanObject != null)
+        {
+            scanObject = newScanObject;
+            scanObject.OnOutLine();
+        }
+        else
+        {
+            if (scanObject != null)
+                scanObject.Clear();
+            scanObject = null;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            scanObject = checkFront();
+            if (scanObject != null)
+            {
+                scanObject.Run();
+                scanObject = null;
             }
         }
     }
@@ -170,7 +188,7 @@ public class Player : Singleton<Player>
         {
             Enemy e = collision.gameObject.GetComponent<Enemy>();
            
-            Debug.Log(e.name + " 의 체력 " + e.stat.CurrentHp);
+            //Debug.Log(e.name + " 의 체력 " + e.stat.CurrentHp);
         }
     }
     
@@ -231,7 +249,15 @@ public class Player : Singleton<Player>
         isPlayerJump = true;
         jumpAnimationUpdated(isPlayerJump);
     }
-    
+    private void SetWeapon(int i)
+    {
+        weapons[weaponMode].gameObject.SetActive(false);
+
+        weaponMode = i;
+        weapons[weaponMode].gameObject.SetActive(true);
+        weapons[weaponMode].SetColliderOn(false);
+        
+    }
     public void AttackPlayer()
     {
         if (!isPlayerAttack)
@@ -239,24 +265,25 @@ public class Player : Singleton<Player>
             isPlayerAttack = true;
 
 
-            if (isAttackMode)
+            if (weaponMode==0)
             {
-                sword.SetColliderOn(true);
-                animator.SetTrigger("swordAttack");
+                weapons[0].SetColliderOn(true);
+                animator.CrossFade("NormalAttack", 0.0f);
+               
             }
-            else
-                animator.SetTrigger("normalAttack");
+            else if (weaponMode == 1)
+            {
+                weapons[1].SetColliderOn(true);
+                animator.CrossFade("SwordAttack", 0.0f);
+            }
+
 
         }
         
     }
     public void ChangeIsPlayerAttack()
     {
-        if (isAttackMode)
-        {
-            //검 충돌처리 끄기
-            sword.SetColliderOn(false);
-        }
+        weapons[weaponMode].SetColliderOn(false);
         isPlayerAttack = false;
 
     }

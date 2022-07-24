@@ -15,14 +15,18 @@ public class Stat
         set
         {
             currentHp = value;
-            OnChanged?.Invoke();
+            if (currentHp > Hp)
+            {
+                currentHp = Hp;
+            }
             if (currentHp <= 0)
             {
                 currentHp = 0;
                 OnDie?.Invoke();
 
             }
-            
+            OnChanged?.Invoke();
+
         }
 
     }
@@ -62,5 +66,8 @@ public class Stat
         if (sp == 0) extraSpeed = 0;
         else extraSpeed += sp;
     }
-
+    public float GetMaxHP()
+    {
+        return Hp;
+    }
 }
