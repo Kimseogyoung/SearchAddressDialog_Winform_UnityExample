@@ -8,7 +8,6 @@ public class Player : Singleton<Player>
     public PlayerUI playerUI;
    
     public Stat stat;
-    public float speed;
     public float angleSpeed;
     public float jumpForce;
 

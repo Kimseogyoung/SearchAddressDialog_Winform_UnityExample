@@ -1193,7 +1193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6764516572998991024, guid: d4008f80582e1f8469fc600827724a29, type: 3}
       propertyPath: stat.Hp
-      value: 300
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6764516572998991024, guid: d4008f80582e1f8469fc600827724a29, type: 3}
       propertyPath: playerUI
@@ -1209,7 +1209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6764516572998991024, guid: d4008f80582e1f8469fc600827724a29, type: 3}
       propertyPath: stat.damage
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6764516572998991024, guid: d4008f80582e1f8469fc600827724a29, type: 3}
       propertyPath: stat.attackSpeed
@@ -1476,6 +1476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basepower: 3
+  attackSpeed: 0
+  isRangeAttack: 0
 --- !u!54 &973435402
 Rigidbody:
   m_ObjectHideFlags: 0
